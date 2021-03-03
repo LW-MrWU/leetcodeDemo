@@ -1,4 +1,4 @@
-package vip.gameclub.leetcode.easy;
+package vip.gameclub.leetcode.algorithm.easy;
 
 import org.junit.Test;
 
