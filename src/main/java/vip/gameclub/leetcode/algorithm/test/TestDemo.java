@@ -15,29 +15,70 @@ import java.util.*;
 public class TestDemo {
     @Test
     public void test(){
-        int result = minDepth(new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3))));
+        //int result = minDepth(new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3))));
         //boolean result = isValid("{[]}");
         //String result = addBinary("11", "1");
         //ListNode result = deleteDuplicates(new ListNode(1, new ListNode(1, new ListNode(2))));
         //boolean result = isBalanced(new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3))));
         //TreeNode result = isBalanced(new TreeNode(1, new TreeNode(2), new TreeNode(3)));
+        ListNode result = addTwoNumbers(new ListNode(2, new ListNode(4, new ListNode(3))), new ListNode(5, new ListNode(6, new ListNode(4))));
         System.out.println(result);
+    }
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int pre = 0;
+        ListNode listNode=null, next=null;
+        while(l1 != null || l2 != null){
+            int a=pre;
+            if(l1 != null){
+                a+=l1.val;
+                l1 = l1.next;
+            }
+            if(l2 != null){
+                a+=l2.val;
+                l2 = l2.next;
+            }
+            pre = a/10;
+            if(listNode == null){
+                listNode = next = new ListNode(a%10);
+            }else{
+                next.next = new ListNode(a%10);
+                next = next.next;
+            }
+        }
+        if(pre > 0){
+            next.next = new ListNode(pre);
+        }
+        return listNode;
     }
 
     public int minDepth(TreeNode root) {
         if(root == null) return 0;
         if(root.left == null){
             return minDepth(root.right)+1;
-        }
-        if(root.right == null){
+        }else if(root.right == null){
             return minDepth(root.left)+1;
+        }else{
+            return Math.min(minDepth(root.left), minDepth(root.right))+1;
         }
-        return Math.min(minDepth(root.left), minDepth(root.right))+1;
     }
 
     public boolean isBalanced(TreeNode root) {
         if(root == null) return true;
-        return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+        return Math.abs(maxDepth(root.left)-maxDepth(root.right)) <=1 && (isBalanced(root.left) && isBalanced(root.right));
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return check(nums, 0, nums.length-1);
+    }
+
+    private TreeNode check(int[] nums, int left, int right){
+        if(left > right) return null;
+        int mid = (left+right)/2;
+        TreeNode root = new TreeNode(mid);
+        root.left = check(nums,left,mid-1);
+        root.right = check(nums,mid+1,right);
+        return root;
     }
 
     public int maxDepth(TreeNode root) {
