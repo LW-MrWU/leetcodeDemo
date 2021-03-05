@@ -15,25 +15,66 @@ import java.util.*;
 public class TestDemo {
     @Test
     public void test(){
-        //int result = maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4});
+        int result = minDepth(new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3))));
         //boolean result = isValid("{[]}");
         //String result = addBinary("11", "1");
         //ListNode result = deleteDuplicates(new ListNode(1, new ListNode(1, new ListNode(2))));
-        boolean result = isSameTree(new TreeNode(1, new TreeNode(2), null), new TreeNode(1, null, new TreeNode(2)));
+        //boolean result = isBalanced(new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3))));
+        //TreeNode result = isBalanced(new TreeNode(1, new TreeNode(2), new TreeNode(3)));
         System.out.println(result);
+    }
+
+    public int minDepth(TreeNode root) {
+        if(root == null) return 0;
+        if(root.left == null){
+            return minDepth(root.right)+1;
+        }
+        if(root.right == null){
+            return minDepth(root.left)+1;
+        }
+        return Math.min(minDepth(root.left), minDepth(root.right))+1;
+    }
+
+    public boolean isBalanced(TreeNode root) {
+        if(root == null) return true;
+        return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+    }
+
+    public int maxDepth(TreeNode root) {
+        if(root == null) return 0;
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) return false;
+        return isSymmetricCheck(root.left, root.right);
+    }
+
+    private boolean isSymmetricCheck(TreeNode p, TreeNode q){
+        if(p == null && q == null){
+            return true;
+        }else if(p == null || q == null){
+            return false;
+        }else if(p.val != q.val){
+            return false;
+        }else{
+            return isSymmetricCheck(p.left, q.right) && isSymmetricCheck(p.right, q.left);
+        }
+
     }
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if(p == null && q == null){
             return true;
-        }else if(p==null || q==null){
+        }else if(p == null || q == null){
             return false;
         }else if(p.val != q.val){
             return false;
         }else{
-            return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
+            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
         }
     }
+
 
     public ListNode deleteDuplicates(ListNode head) {
         if(head == null || head.next == null){
