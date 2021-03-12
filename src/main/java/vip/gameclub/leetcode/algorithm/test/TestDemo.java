@@ -25,6 +25,41 @@ public class TestDemo {
         System.out.println(result);
     }
 
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null) return false;
+        if(root.left == null && root.right == null ){
+            return root.val == targetSum;
+        }
+        return hasPathSum(root.left, targetSum-root.val) || hasPathSum(root.right, targetSum-root.val);
+    }
+
+    public int minDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }else if(root.left == null && root.right == null){
+            return 1;
+        }else if(root.left == null){
+            return minDepth(root.right)+1;
+        }else if(root.right == null){
+            return minDepth(root.left)+1;
+        }else {
+            return Math.min(minDepth(root.left), minDepth(root.right))+1;
+        }
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return check(nums, 0, nums.length-1);
+    }
+
+    private TreeNode check(int[] nums, int left, int right){
+        if(left>right) return null;
+        int mid = (left+right)/2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = check(nums, left, mid-1);
+        root.right = check(nums, mid+1, right);
+        return root;
+    }
+
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int pre = 0;
         ListNode listNode=null, next=null;
@@ -52,33 +87,9 @@ public class TestDemo {
         return listNode;
     }
 
-    public int minDepth(TreeNode root) {
-        if(root == null) return 0;
-        if(root.left == null){
-            return minDepth(root.right)+1;
-        }else if(root.right == null){
-            return minDepth(root.left)+1;
-        }else{
-            return Math.min(minDepth(root.left), minDepth(root.right))+1;
-        }
-    }
-
     public boolean isBalanced(TreeNode root) {
         if(root == null) return true;
         return Math.abs(maxDepth(root.left)-maxDepth(root.right)) <=1 && (isBalanced(root.left) && isBalanced(root.right));
-    }
-
-    public TreeNode sortedArrayToBST(int[] nums) {
-        return check(nums, 0, nums.length-1);
-    }
-
-    private TreeNode check(int[] nums, int left, int right){
-        if(left > right) return null;
-        int mid = (left+right)/2;
-        TreeNode root = new TreeNode(mid);
-        root.left = check(nums,left,mid-1);
-        root.right = check(nums,mid+1,right);
-        return root;
     }
 
     public int maxDepth(TreeNode root) {
