@@ -5,6 +5,7 @@ import vip.gameclub.leetcode.algorithm.util.ListNode;
 import vip.gameclub.leetcode.algorithm.util.TreeNode;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 测试用
@@ -21,16 +22,38 @@ public class TestDemo {
         //ListNode result = deleteDuplicates(new ListNode(1, new ListNode(1, new ListNode(2))));
         //boolean result = isBalanced(new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3))));
         //TreeNode result = isBalanced(new TreeNode(1, new TreeNode(2), new TreeNode(3)));
-        ListNode result = addTwoNumbers(new ListNode(2, new ListNode(4, new ListNode(3))), new ListNode(5, new ListNode(6, new ListNode(4))));
-        System.out.println(result);
+        //ListNode result = addTwoNumbers(new ListNode(2, new ListNode(4, new ListNode(3))), new ListNode(5, new ListNode(6, new ListNode(4))));
+        System.out.println(convertToTitle(53));
+        //atomicInteger();
+    }
+
+    public String convertToTitle(int columnNumber) {
+        StringBuilder sb = new StringBuilder();
+        while(columnNumber > 0){
+            columnNumber--;
+            sb.append((char)(columnNumber%26 + 'A'));
+            columnNumber /=26;
+        }
+        return sb.reverse().toString();
+    }
+
+    public void atomicInteger(){
+        AtomicInteger atomicInteger = new AtomicInteger(5);
+
+        System.out.println(atomicInteger.compareAndSet(5, 2019)+"\tvalue:"+atomicInteger.get());
+        System.out.println(atomicInteger.compareAndSet(5, 100)+"\tvalue:"+atomicInteger.get());
     }
 
     public boolean hasPathSum(TreeNode root, int targetSum) {
-        if(root == null) return false;
-        if(root.left == null && root.right == null ){
+        if(root == null){
+            return false;
+        }
+        if(root.left == null && root.right == null){
             return root.val == targetSum;
         }
+
         return hasPathSum(root.left, targetSum-root.val) || hasPathSum(root.right, targetSum-root.val);
+
     }
 
     public int minDepth(TreeNode root) {
